@@ -1,0 +1,19 @@
+.parent {
+    margin: 1rem;
+    padding: 2rem 2rem;
+    text-align: center;
+  }
+.chart-child {
+    height: 60%;
+    width: 60%;
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+}
+.chat-child {
+    height: 30%;
+    width: 30%;
+    display: inline-block;
+    padding: 1rem 1rem;
+    vertical-align: middle;
+}

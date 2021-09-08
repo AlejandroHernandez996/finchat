@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+      {% if title %}
+      <title>{{ title }} - finchat</title>
+      {% else %}
+      <title>finchat</title>
+      {% endif %}
+    <link rel="stylesheet" href="/static/styles.css">
+    </head>
+    <body>
+        <center>
+        <a href="/index"><img src="/static/logo.png" class="center"></a>
+        {% block content %}{% endblock %}
+        </center>
+    </body>
+</html>
+
