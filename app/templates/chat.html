@@ -5,6 +5,8 @@
 <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h3> {{ ticker }} </h3>
+<label id="current-price"></label>
 <div class="parent">
     <div class="chart-child">
         <canvas id="myChart"></canvas>
@@ -15,14 +17,14 @@
     </div>
 </div>
 <script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: {{ labels | tojson }},
+        labels: [],
         datasets: [{
             label: {{ ticker | tojson }} ,
-            data: {{ values | tojson }},
+            data: [],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -49,9 +51,7 @@ var myChart = new Chart(ctx, {
             }
         }
     }
-});
-</script>
-<script>
+    });
     var socket;
     $(document).ready(function(){
         socket = io.connect('http://127.0.0.1:5000/chat');
@@ -66,6 +66,23 @@ var myChart = new Chart(ctx, {
             $('#chat').val($('#chat').val() + data.msg + '\n');
             $('#chat').scrollTop($('#chat')[0].scrollHeight);
         });
+        socket.on('price',  function(data){
+            var today = new Date();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+            if( myChart.data.labels.length >= 10){
+                myChart.data.labels.shift();
+                myChart.data.datasets.forEach((dataset) => {
+                dataset.data.shift();
+                });
+            }
+            myChart.data.labels.push(time);
+            myChart.data.datasets.forEach((dataset) => {
+            dataset.data.push(data.price);
+            });
+            myChart.update();
+            document.getElementById('current-price').innerHTML = data.price;
+        })
         $('#text').keypress(function(e) {
             var code = e.keyCode || e.which;
             if (code == 13) {
@@ -75,5 +92,8 @@ var myChart = new Chart(ctx, {
             }
         });
     });
+    setInterval(function(){
+        socket.emit('price-request', {});
+    }, 2000);
 </script>
 {% endblock %}
