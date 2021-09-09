@@ -70,7 +70,7 @@
             var today = new Date();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-            if( myChart.data.labels.length >= 10){
+            if( myChart.data.labels.length >= 100){
                 myChart.data.labels.shift();
                 myChart.data.datasets.forEach((dataset) => {
                 dataset.data.shift();
