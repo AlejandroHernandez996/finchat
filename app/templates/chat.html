@@ -92,8 +92,5 @@
             }
         });
     });
-    setInterval(function(){
-        socket.emit('price-request', {ticker: ticker});
-    }, 2000);
 </script>
 {% endblock %}
