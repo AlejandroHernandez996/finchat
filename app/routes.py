@@ -9,17 +9,11 @@ def index():
     form = QueryForm()
     if form.validate_on_submit():
         ticker = form.query.data.upper()
-        session['room'] = ticker
-        r = RandomWords()
-        session['name'] = r.get_random_word() 
         return redirect(url_for('.chat',query=ticker))
     return render_template('index.html',title='Home',form=form)
 @app.route('/<query>')
 def chat(query):
     ticker = query.upper()
-    session['room'] = ticker
-    r = RandomWords()
-    session['name'] = r.get_random_word()
     return render_template('chat.html',title='$'+ticker,ticker=ticker)
 
     
