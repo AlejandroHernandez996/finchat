@@ -3,8 +3,6 @@ eventlet.monkey_patch()
 
 from flask import Flask
 from flask_socketio import SocketIO
-from stockData import StockData
-from cryptoData import CryptoData
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -13,8 +11,8 @@ socketio = SocketIO(app)
 rooms = {}
 def bg_emit():
     for room in rooms:
-        stockData = StockData(room)
-        cryptoData = StockData(room)
+        app.stockData = StockData(room)
+        app.cryptoData = StockData(room)
         price = stockData.getCurrentPrice()
         if price is None:
             price = cryptoData.getCurrentPrice()
