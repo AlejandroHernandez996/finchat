@@ -7,4 +7,4 @@ socketio = SocketIO(app)
 from app import routes, events
 
 if __name__ == '__main__':
-    socketio.run(app)
+    socketio.run(app,cors_allowed_origins='http://fincha.tv',host='137.184.101.17', port=80)
