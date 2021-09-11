@@ -23,6 +23,13 @@ def joined(data):
     else:
         roomCount[room] = 1
     emit('status', {'msg': name + ' has entered the room.'}, room=room)
+
+@socketio.on('left', namespace='/chat')
+def left(data):
+    leave_room(session['room'])
+    roomCount[session['room']] -= 1
+    emit('status', {'msg': name + ' has left the room.'}, room=room)
+    
 @socketio.on('text', namespace='/chat')
 def text(data):
     room = data['ticker']

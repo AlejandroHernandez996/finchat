@@ -98,5 +98,8 @@
     setInterval(function(){ 
 	socket.emit('price-request', {ticker: ticker});
     }, 1000);
+    window.onbeforeunload = function () {
+        socket.emit('left', {});
+    }
 </script>
 {% endblock %}
