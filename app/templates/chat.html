@@ -13,6 +13,8 @@
     <div class="chat-child">
         <textarea id="chat" cols="80" rows="20"></textarea><br><br>
         <input id="text" size="80" placeholder="Enter your message here"><br><br>
+        <a href="/index"><img src="/static/viewer_logo.png" class="center"></a>
+        <label id="viewer-count"></label>
     </div>
 </div>
 <script>
@@ -67,7 +69,6 @@
             $('#chat').scrollTop($('#chat')[0].scrollHeight);
         });
         socket.on('price',  function(data){
-	    console.log("eyo its a price");
             var today = new Date();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
@@ -83,6 +84,7 @@
             });
             myChart.update();
             document.getElementById('current-price').innerHTML = data.price;
+            document.getElementById('viewer-count').innerHTML = data.count;
         })
         $('#text').keypress(function(e) {
             var code = e.keyCode || e.which;

@@ -9,6 +9,7 @@ import string
 import time
 
 priceCache = {}
+roomCount = {}
 @socketio.on('joined', namespace='/chat')
 def joined(data):
     room = data['ticker']
@@ -17,6 +18,10 @@ def joined(data):
     session['name'] = name
     join_room(room)
     join_room(name)
+    if room in roomCount:
+        roomCount[room] += 1
+    else:
+        roomCount[room] = 1
     emit('status', {'msg': name + ' has entered the room.'}, room=room)
 @socketio.on('text', namespace='/chat')
 def text(data):
@@ -37,4 +42,4 @@ def price_request(data):
         if price is None:
             price = cryptoData.getCurrentPrice()
         priceCache[data['ticker']] = {'price': price, 'time': int(time.time()*1000)}
-    emit('price',{'price' : price},room=session['name'])
+    emit('price',{'price' : price,'count' : roomCount[data['ticker']]},room=session['name'])
