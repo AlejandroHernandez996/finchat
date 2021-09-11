@@ -29,7 +29,7 @@ def left(data):
     leave_room(data['ticker'])
     leave_room(session['name'])
     roomCount[data['ticker']] -= 1
-    emit('status', {'msg': name + ' has left the room.'}, room=data['ticker'])
+    emit('status', {'msg': session['name'] + ' has left the room.'}, room=data['ticker'])
     
 @socketio.on('text', namespace='/chat')
 def text(data):
