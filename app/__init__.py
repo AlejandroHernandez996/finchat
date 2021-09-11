@@ -1,30 +1,13 @@
-import eventlet
-eventlet.monkey_patch()
-
 from flask import Flask
 from flask_socketio import SocketIO
+from engineio.payload import Payload
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret!'
+app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 socketio = SocketIO(app)
-rooms = {}
-def bg_emit():
-    for room in rooms:
-        app.stockData = StockData(room)
-        app.cryptoData = StockData(room)
-        price = stockData.getCurrentPrice()
-        if price is None:
-            price = cryptoData.getCurrentPrice()
-        socket.io.emit('price',{'price' : price} , room=room)    
-def listen():
-    while True:
-        bg_emit()
-        eventlet.sleep(2)
-
-eventlet.spawn(listen)
-
 from app import routes, events
 
 if __name__ == '__main__':
-    socketio.run(app,cors_allowed_origins='http://fincha.tv',host='137.184.101.17', port=80)
+    Payload.max_decode_packets = 5000
+    socketio.run(app,cors_allowed_origins='http://fincha.tv',host='http://fincha.tv', port=80)

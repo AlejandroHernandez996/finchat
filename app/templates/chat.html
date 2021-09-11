@@ -67,6 +67,7 @@
             $('#chat').scrollTop($('#chat')[0].scrollHeight);
         });
         socket.on('price',  function(data){
+	    console.log("eyo its a price");
             var today = new Date();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
@@ -92,5 +93,8 @@
             }
         });
     });
+    setInterval(function(){ 
+	socket.emit('price-request', {ticker: ticker});
+    }, 1000);
 </script>
 {% endblock %}
