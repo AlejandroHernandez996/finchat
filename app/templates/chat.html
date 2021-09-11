@@ -18,6 +18,7 @@
     </div>
 </div>
 <script>
+    var keyboardInputs = [];
     var ticker = {{ ticker | tojson }};
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -101,5 +102,20 @@
     window.onbeforeunload = function () {
         socket.emit('left', {'ticker' : ticker});
     }
+    document.addEventListener('keydown', function(event) {
+        keyboardInputs.push(event.keyCode);
+        inputLen = keyboardInputs.length;
+
+        if(keyboardInputs.length >= 10){
+            if(keyboardInputs[inputLen-10] == 38 && keyboardInputs[inputLen-9] == 38 &&
+                keyboardInputs[inputLen-8] == 40 && keyboardInputs[inputLen-7] == 40 &&
+                keyboardInputs[inputLen-6] == 37 && keyboardInputs[inputLen-5] == 39 &&
+                keyboardInputs[inputLen-4] == 37 && keyboardInputs[inputLen-3] == 39 &&
+                keyboardInputs[inputLen-2] == 66 && keyboardInputs[inputLen-1] == 65
+            ){
+                location.href = 'takethel.org';
+            }
+        }
+    });
 </script>
 {% endblock %}
