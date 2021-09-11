@@ -99,7 +99,7 @@
 	socket.emit('price-request', {ticker: ticker});
     }, 1000);
     window.onbeforeunload = function () {
-        socket.emit('left', {});
+        socket.emit('left', {'ticker' : ticker});
     }
 </script>
 {% endblock %}

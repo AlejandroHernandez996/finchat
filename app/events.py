@@ -26,9 +26,10 @@ def joined(data):
 
 @socketio.on('left', namespace='/chat')
 def left(data):
-    leave_room(session['room'])
-    roomCount[session['room']] -= 1
-    emit('status', {'msg': name + ' has left the room.'}, room=room)
+    leave_room(data['ticker'])
+    leave_room(session['name'])
+    roomCount[data['ticker']] -= 1
+    emit('status', {'msg': name + ' has left the room.'}, room=data['ticker'])
     
 @socketio.on('text', namespace='/chat')
 def text(data):
